@@ -1,0 +1,21 @@
+实现表格按照模板导出
+
+//这个方法是获取数据的方法
+   private static List<Student> getStudentInfo() {
+    List<Student> students = new ArrayList<Student>();
+    for (int i=0;i<100;i++){
+        students.add(new Student("zhangsan",(int)(Math.random()*100),(i%2==0?1:0),"10000000"+i));
+    }
+    return students;
+    }
+//根据上面的方法得到数据
+  List<Student> students = getStudentInfo();
+  //得到模板的输入流
+    InputStream is = MyTest.class.getResourceAsStream("template_student.xlsx");
+        //确定输出流
+        OutputStream os = new FileOutputStream("target/object_collection_output.xls");
+            //创建一个有HashMap组合的成的类的实例，将数据添加到HashMap
+            Context context = new Context();
+            context.putVar("students", students);
+            //按照模板导出数据
+            JxlsHelper.getInstance().processTemplate(is, os, context);
